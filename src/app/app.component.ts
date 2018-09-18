@@ -19,6 +19,9 @@ export class AppComponent {
   
   addTodo(){
     console.log(this.newTodo);
+    this.newTodo.category = this.selectedCategory.id;
+    this.todoService.addTodo(this.newTodo);
+    this.newTodo = new Todo();
   }
 
   addCategory(){
@@ -28,6 +31,10 @@ export class AppComponent {
   
   selectCategory(category: Category){
     this.selectedCategory = category;
+  }
+
+  get todosForCat(){
+    return this.todoService.getTodosByCategory(this.selectedCategory.id);
   }
 
   ngOnInit(){

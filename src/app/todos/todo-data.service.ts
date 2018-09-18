@@ -17,4 +17,8 @@ export class TodoDataService {
     return this;
   }
 
+  getTodosByCategory(id: number){
+    return this.todos.filter(todo => todo.category === id)
+  }
+
 }
