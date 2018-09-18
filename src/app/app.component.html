@@ -1,0 +1,19 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+  <div class="list">
+    <ol>
+      <li *ngFor="let category of categories" (click)="selectCategory(category)">
+        <p>{{category.name}}</p>
+      </li>
+    </ol>
+    <input type="text" [(ngModel)]="newCategory.name" (keyup.enter)="addCategory()" placeholder="Enter new Category">
+  </div>
+  <div class="content"> 
+    <div>
+      Todo list <div *ngIf="selectedCategory">{{selectedCategory.name}}</div>
+    </div>
+    <input type="text" [(ngModel)]="newTodo.title" (keyup.enter)="addTodo()" placeholder="Enter new Todo">
+  </div>
+</div>
+
+
