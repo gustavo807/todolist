@@ -1,31 +1,42 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container">
-  <div class="list">
+  
+
+  <div class="p-left">
+    <p>Create Todo list app</p>
     <ol>
-      <li *ngFor="let category of categories" (click)="selectCategory(category)">
-        <p>{{category.name}}</p>
+      <li *ngFor="let category of categories">
+        <p (click)="onSelect(category)"> {{ category.name }} {{countTodosByCat(category.id)}} </p>
       </li>
     </ol>
-    <input type="text" [(ngModel)]="newCategory.name" (keyup.enter)="addCategory()" placeholder="Enter new Category">
+    <form>
+      <span (click)="addCategory()">+</span>
+      <input type="text" [(ngModel)]="newCategory.name" (keyup.enter)="addCategory()" placeholder="Add Category" name="categoryTitle">
+    </form>
   </div>
-  <div class="content"> 
-    <div>
 
-      Todo list <div *ngIf="selectedCategory">{{selectedCategory.name}}
-
-          <div *ngIf="todosForCat.length > 0">
-              <ol>
-                <li *ngFor="let todo of todosForCat">{{todo.title}}</li>
-              </ol>
-            </div>
-
+  <div class="p-right">
+      <div *ngIf="selectedCategory; else no_category">
+        <p>{{selectedCategory.name}}</p>
+          <ol>
+            <li *ngFor="let todo of todosByCat">
+              <div [ngClass]="{'p-complete': todo.complete}">
+                <span (click)="toggleTodo(todo)">{{todo.title}}</span>
+                <span class="t-remove" (click)="removeTodo(todo)">x</span>
+              </div>
+            </li>
+          </ol>
+          <form>
+            <span (click)="addTodo()">+</span>
+            <input type="text" [(ngModel)]="newTodo.title" (keyup.enter)="addTodo()" placeholder="Add Todo" name="todoTitle">
+          </form>
       </div>
-
-      
-
-    </div>
-    <input type="text" [(ngModel)]="newTodo.title" (keyup.enter)="addTodo()" placeholder="Enter new Todo">
+    
+      <ng-template #no_category>
+        <p>Please, Select a category</p>
+      </ng-template>
   </div>
+
 </div>
 
 

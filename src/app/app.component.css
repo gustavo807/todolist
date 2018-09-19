@@ -1,7 +1,16 @@
 .container{
     margin: 100px;
+    display: inline-flex;
 }
 
-.content{
-    margin-top: 10px;
+.p-right{
+    margin-left: 40px;
+}
+
+.p-complete{
+    text-decoration: line-through;
+}
+
+.t-remove{
+    float: right;
 }

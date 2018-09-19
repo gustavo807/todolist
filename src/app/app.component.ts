@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Todo } from './todos/todo';
-import { TodoDataService } from './todos/todo-data.service';
 import { CategoryDataService } from './categories/category-data.service';
 import { Category } from './categories/category';
+import { TodoDataService } from './todos/todo-data.service';
+import { Todo } from './todos/todo';
 
 @Component({
   selector: 'app-root',
@@ -10,47 +10,55 @@ import { Category } from './categories/category';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  newTodo: Todo = new Todo();
-  newCategory: Category = new Category();
-  categories: Category[] = [];
-  todos: Todo[] = [];
   selectedCategory: Category;
-  constructor(private todoService: TodoDataService, private categoryService: CategoryDataService){}
+  newCategory: Category = new Category();
+  newTodo: Todo = new Todo();
+  constructor(private categoryService: CategoryDataService, private todoService: TodoDataService){}
   
-  addTodo(){
-    console.log(this.newTodo);
-    this.newTodo.category = this.selectedCategory.id;
-    this.todoService.addTodo(this.newTodo);
-    this.newTodo = new Todo();
+  get categories(){
+    return this.categoryService.getAllCategories();
+  }
+
+  get todosByCat(){
+    return this.todoService.getTodosByCat(this.selectedCategory.id);
+  }
+
+  countTodosByCat(id: number){
+    return this.todoService.getTodosByCat(id).length;
+  }
+
+  onSelect(category: Category){
+    this.selectedCategory = category;
   }
 
   addCategory(){
     this.categoryService.addCategory(this.newCategory);
     this.newCategory = new Category();
   }
-  
-  selectCategory(category: Category){
-    this.selectedCategory = category;
+
+  addTodo(){
+    this.newTodo.category = this.selectedCategory.id;
+    this.todoService.addTodo(this.newTodo);
+    this.newTodo = new Todo();
   }
 
-  get todosForCat(){
-    return this.todoService.getTodosByCategory(this.selectedCategory.id);
+  toggleTodo(todo: Todo){
+    this.todoService.toggleTodo(todo);
+  }
+
+  removeTodo(todo: Todo){
+    this.todoService.deleteTodo(todo.id);
   }
 
   ngOnInit(){
-    console.log('onInit');
-  
-    var categoriesInit = [
-      {name: 'Monday'},
-      {name: 'Thuesday'},
-      {name: 'Shopping'}
-    ];
-    categoriesInit.map(item => {
-      this.categoryService.addCategory(new Category(item));
-    });
-    
-    this.categories = this.categoryService.getAllCategories();
-    console.log(this.categories);
+    this.categoryService.addCategory(new Category({name: 'work'}));
+    this.categoryService.addCategory(new Category({name: 'angular'}));
+    this.categoryService.addCategory(new Category({name: 'vue'}));
+    this.categoryService.addCategory(new Category({name: 'forms'}));
+
+    this.todoService.addTodo(new Todo({title: 'work1', category: 3, id:1, complete: true}));
+    this.todoService.addTodo(new Todo({title: 'work2', category: 2, id:2, complete: true}));
+    this.todoService.addTodo(new Todo({title: 'work3', category: 2, id:3}));
   }
 
 }
