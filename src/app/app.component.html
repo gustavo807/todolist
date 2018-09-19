@@ -3,7 +3,7 @@
   
 
   <div class="p-left">
-    <p>Create Todo list app</p>
+    <p>Categories</p>
     <ol>
       <li *ngFor="let category of categories">
         <p (click)="onSelect(category)"> {{ category.name }} {{countTodosByCat(category.id)}} </p>
